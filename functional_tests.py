@@ -10,7 +10,7 @@ class NewVisitorTest(unittest.TestCase):
             self.browser.quit()
 
     def test_can_start_a_list_and_retireve_it_later(self):
-        self.browser.get('hhtp://localhost:8000')
+        self.browser.get('http://localhost:8000')
         self.assertIn('To-Do', self.browser.title)
         self.fail('Finish the test')
 
