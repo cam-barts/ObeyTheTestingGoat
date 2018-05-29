@@ -31,15 +31,22 @@ class NewVisitorTest(unittest.TestCase):
 
         # User inputs task
         inputbox.send_keys('Do something at sometime')
-
         # When user hits enter, the page updates
         inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
+
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Do another thing at another time')
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(1)
+
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(
-            any(rows.text == '1. Do something at sometime')
-        )
+        self.assertIn('1: Do something at sometime',
+            [row.text for row in rows])
+        self.assertIn('2: Do another thing at another time',
+            [row.text for row in rows])
+
         self.fail('Finish the test')
 
 
