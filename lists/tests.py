@@ -31,7 +31,6 @@ class HomePageTest(TestCase):
         Item.objects.create(text='item1')
         Item.objects.create(text='item2')
         response = self.client.get('/')
-
         self.assertIn('item1', response.content.decode())
         self.assertIn('item2', response.content.decode())
 
