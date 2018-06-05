@@ -7,6 +7,7 @@ import time
 
 MAX_WAIT = 10
 
+
 class NewVisitorTest(LiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Firefox()
@@ -51,16 +52,52 @@ class NewVisitorTest(LiveServerTestCase):
         inputbox.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table('1: Do something at sometime')
 
-        #User inputs a different task
+        # User inputs a different task
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Do another thing at another time')
         inputbox.send_keys(Keys.ENTER)
 
-        #Rows have both of the To-Do list items
+        # Rows have both of the To-Do list items
         self.wait_for_row_in_list_table('1: Do something at sometime')
         self.wait_for_row_in_list_table('2: Do another thing at another time')
 
-        self.fail('Finish the test')
+    def test_multiple_users_can_start_lists_at_different_urls(self):
+        # User 2 starts a new lists
+        self.browser.get(self.live_server_url)
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Something about peacock feathers')
+        inputbox.send_keys(Keys.ENTER)
+        self.wait_for_row_in_list_table('1: Something about peacock feathers')
+
+        # User 2 notices that her list has a unique url
+        user2_list_url = self.browser.current_url
+        self.assertRegex(user2_list_url, '/lists/.+')
+
+        # User 3 comes alongs
+        self.browser.quit()
+        self.browser = webdriver.Firefox()
+
+        # User 3 does not see user 2s list
+        self.browser.get(self.live_server_url)
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Something about peacock feathers', page_text)
+        self.AssertNotIn('make a fly', page_text)
+
+        # User 3 starts a new grocery list
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('milk')
+        inputbox.send_keys(Keys.ENTER)
+        self.wait_for_row_in_list_table('1: milk')
+
+        # User 3 gets own unique url
+        user3_list_url = self.browser.current_url
+        self.assertRegex(user3_list_url, '/lists/.+')
+        self.assertNotEqual(user2_list_url, user3_list_url)
+
+        # Ensure lists do not cross, and correct list shows
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Something about peacock feathers', page_text)
+        self.assertIn('milk', page_text)
 
 
 if __name__ == '__main__':
