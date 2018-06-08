@@ -28,6 +28,19 @@ class NewVisitorTest(LiveServerTestCase):
                     raise e
                 time.sleep(0.1)
 
+    def test_layout_and_styling(self):
+        # User goes to home page
+        self.browser.get(self.live_server_url)
+        self.browser.set_window_size(1024,768)
+
+        # User notices input box is centered
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(
+            inputbox.location['x'] + inputbox.size['width'] / 2,
+            512,
+            delta=10
+        )
+
     def test_can_start_a_list_and_retireve_it_later(self):
         # Open a browser to the web app
         self.browser.get(self.live_server_url)
