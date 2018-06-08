@@ -1,0 +1,21 @@
+html body {
+	background-color: #424250;
+	font-family: "Exo", sans-serif;
+}
+
+td {
+	background-color: #5a1ae4;
+	color: white;
+	border-radius: 10px;
+	padding:5em;
+}
+
+#id_new_item {
+	margin-top: 2em;
+}
+
+#header {
+	background-color: #5a1ae4;
+	color: white;
+	padding: 0.5em;
+}
