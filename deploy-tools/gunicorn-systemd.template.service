@@ -1,0 +1,11 @@
+[Unit]
+Description=Gunicorn server for SITENAME
+
+[Service]
+Restart=on-failure
+User=USERNAME
+WorkingDirectory=/home/todouser/sites/SITENAME/source
+ExecStart=/home/USERNAME/sites/SITENAME/virtualenv/bin/gunicorn --bind unix:/tmp/SITENAME.socket superlists.wsgi:application
+
+[Install]
+WantedBy=multi-user.target

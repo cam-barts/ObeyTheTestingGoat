@@ -25,13 +25,17 @@ SECRET_KEY = 'zb^z8+j&l^nbs&)s*#9$e@e%quqtmm!-b#5vfj5sl@)5^w3c3+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+<<<<<<< HEAD
     #'django.contrib.admin',
+=======
+   # 'django.contrib.admin',
+>>>>>>> 238409ea4c838b6b5c4387c191fdb6b29fec391a
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -77,7 +81,7 @@ WSGI_APPLICATION = 'superlists.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, '../database/db.sqlite3'),
     }
 }
 
@@ -118,5 +122,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
+<<<<<<< HEAD
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR,'../static'))
+=======
+STATIC_URL = '../static/'
+STATIC_ROOT =os.path.abspath(os.path.join(BASE_DIR, '../static'))
+>>>>>>> 238409ea4c838b6b5c4387c191fdb6b29fec391a
