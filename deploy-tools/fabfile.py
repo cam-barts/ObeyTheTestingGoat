@@ -9,6 +9,7 @@ def deploy():
     source_folder = site_folder + '/source'
     _create_directory_structure_if_necessary(site_folder)
     _get_latest_source(source_folder)
+    _download_required_options(source_folder)
     _update_settings(source_folder, env.host)
     _update_virtualenv(source_folder)
     _update_static_files(source_folder)
@@ -25,6 +26,10 @@ def _get_latest_source(source_folder):
         run(f'git clone {REPO_URL} {source_folder}')
     current_commit = local("git log -n 1 --format=%H", capture=True)
     run(f'cd {source_folder} && git reset --hard {current_commit}')
+
+def _download_required_options(source_folder):
+    required_options_path = source_folder + '/superlists/deploy-tools/download_python36.sh'
+    run(f'chmod 777 {required_options_path} && {required_options_path}')
 
 def _update_settings(source_folder, site_name):
     settings_path = source_folder + '/superlists/settings.py'
