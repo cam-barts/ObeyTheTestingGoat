@@ -31,11 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-<<<<<<< HEAD
-    #'django.contrib.admin',
-=======
    # 'django.contrib.admin',
->>>>>>> 238409ea4c838b6b5c4387c191fdb6b29fec391a
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -122,10 +118,5 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-<<<<<<< HEAD
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR,'../static'))
-=======
-STATIC_URL = '../static/'
-STATIC_ROOT =os.path.abspath(os.path.join(BASE_DIR, '../static'))
->>>>>>> 238409ea4c838b6b5c4387c191fdb6b29fec391a
