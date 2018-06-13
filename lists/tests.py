@@ -108,5 +108,4 @@ class NewItemTest(TestCase):
             f'/lists/{correct_list.id}/add_item',
             data={'item_text':'Some item text'}
         )
-
         self.assertRedirects(response, f'/lists/{correct_list.id}/')
