@@ -3,6 +3,7 @@ from django.urls import resolve
 # from django.http import HttpRequest
 from lists.views import home_page
 from lists.models import Item, List
+from django.utils.html import escape
 
 
 class HomePageTest(TestCase):
@@ -21,13 +22,10 @@ class LiveViewTest(TestCase):
         correct_list = List.objects.create()
         Item.objects.create(text='item 1', list=correct_list)
         Item.objects.create(text='item 2', list=correct_list)
-
         other_list = List.objects.create()
         Item.objects.create(text='Other item 1', list=other_list)
         Item.objects.create(text='Other item 2', list=other_list)
-
         response = self.client.get(f'/lists/{correct_list.id}/')
-
         self.assertContains(response, 'item 1')
         self.assertContains(response, 'item 2')
         self.assertNotContains(response, 'Other item 1')
@@ -53,6 +51,18 @@ class NewListTest(TestCase):
         response = self.client.post('/lists/new', data={'item_text': text})
         new_list = List.objects.first()
         self.assertRedirects(response, f'/lists/{new_list.id}/')
+
+    def test_validation_errors_are_sent_to_home_page_template(self):
+        response = self.client.post('/lists/new', data={'item_text': ''})
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'home.html')
+        expected_error = escape("Oops! You Can't Have an Empty List Item!")
+        self.assertContains(response, expected_error)
+
+    def test_invalid_list_items_arent_saved(self):
+        self.client.post('/list/new', data={'item_text':''})
+        self.assertEqual(List.objects.count(), 0)
+        self.assertEqual(Item.objects.count(), 0)
 
 class NewItemTest(TestCase):
 
