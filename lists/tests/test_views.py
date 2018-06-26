@@ -11,7 +11,7 @@ class HomePageTest(TestCase):
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'home.html')
 
-class LiveViewTest(TestCase):
+class ListViewTest(TestCase):
 
     def test_uses_list_template(self):
         list_ = List.objects.create()
@@ -59,6 +59,17 @@ class LiveViewTest(TestCase):
             data={'item_text':'Some item text'}
         )
         self.assertRedirects(response, f'/lists/{correct_list.id}/')
+
+    def test_validation_errors_end_up_on_lists_page(self):
+        list_ = List.objects.create()
+        response = self.client.post(
+            f'/lists/{list_.id}/',
+            data={'item_text':''}
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'list.html')
+        expected_error = escape("Oops! You Can't Have an Empty List Item!")
+        self.assertContains(response, expected_error)
 
 class NewListTest(TestCase):
 
