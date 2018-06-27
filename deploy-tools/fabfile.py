@@ -1,5 +1,5 @@
 from fabric.contrib.files import append, exists, sed
-from fabric.api import env, local, run
+from fabric.api import env, local, run, sudo
 import random
 
 REPO_URL = 'https://github.com/cam-barts/ObeyTheTestingGoat'
@@ -14,6 +14,8 @@ def deploy():
     _update_virtualenv(source_folder)
     _update_static_files(source_folder)
     _update_database(source_folder)
+    _sed_conf_templates(source_folder)
+    _start_all_services()
 
 def latest():
     site_folder = f'/home/{env.user}/sites/{env.host}'
@@ -37,9 +39,9 @@ def _get_latest_source(source_folder):
     run(f'cd {source_folder} && git reset --hard {current_commit}')
 
 def _download_required_options():
-    run('sudo add-apt-repository ppa:fkrull/deadsnakes -y')
-    run('sudo apt-get update -y')
-    run('sudo apt-get install nginx git python3.6 python3.6-venv -y')
+    sudo('add-apt-repository ppa:fkrull/deadsnakes -y')
+    sudo('apt-get update -y')
+    sudo('apt-get install nginx git python3.6 python3.6-venv -y')
 
 def _update_settings(source_folder, site_name):
     settings_path = source_folder + '/superlists/settings.py'
@@ -67,6 +69,22 @@ def _update_static_files(source_folder):
     )
 
 def _update_database(source_folder):
+    run(f'cd {source_folder} && rm -rf  ../database/db.sqlite3')
+    # run(f'cd {source_folder} && rm -rf lists/migrations/* ')
+    run(f'cd {source_folder} && ../virtualenv/bin/python3.6 manage.py makemigrations')
     run(
         f'cd {source_folder} && ../virtualenv/bin/python3.6 manage.py migrate --noinput'
     )
+
+def _sed_conf_templates(source_folder):
+    nginx_path = source_folder + '/deploy-tools/nginx.template.conf'
+    gunicorn_path = source_folder + '/deploy-tools/gunicorn-systemd.template.service'
+    sudo(f'cd {source_folder} && sed "s/SITENAME/{env.host}/g" {nginx_path} | sudo tee /etc/nginx/sites-available/{env.host}')
+    # run(f'sudo ln -s /etc/nginx/sites-available/{env.host} /etc/nginx/sites-enabled/{env.host}')
+    sudo(f'cd {source_folder} && sed "s/SITENAME/{env.host}/g" {gunicorn_path} | sudo tee /etc/systemd/system/gunicorn-{env.host}')
+
+def _start_all_services():
+    sudo('systemctl daemon-reload')
+    sudo('systemctl reload nginx')
+    sudo(f'systemctl enable gunicorn-{env.host}')
+    sudo(f'systemctl start gunicorn-{env.host}')
