@@ -23,14 +23,14 @@ class NewVisitorTest(FunctionalTest):
         inputbox.send_keys('Do something at sometime')
         # When user hits enter, the page updates
         inputbox.send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table('1: Do something at sometime')
+        self.wait_for_row_in_list_table('Do something at sometime')
         # User inputs a different task
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Do another thing at another time')
         inputbox.send_keys(Keys.ENTER)
         # Rows have both of the To-Do list items
-        self.wait_for_row_in_list_table('1: Do something at sometime')
-        self.wait_for_row_in_list_table('2: Do another thing at another time')
+        self.wait_for_row_in_list_table('Do something at sometime')
+        self.wait_for_row_in_list_table('Do another thing at another time')
 
     def test_multiple_users_can_start_lists_at_different_urls(self):
         # User 2 starts a new lists
@@ -38,7 +38,7 @@ class NewVisitorTest(FunctionalTest):
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Something about peacock feathers')
         inputbox.send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table('1: Something about peacock feathers')
+        self.wait_for_row_in_list_table('Something about peacock feathers')
         # User 2 notices that her list has a unique url
         user2_list_url = self.browser.current_url
         self.assertRegex(user2_list_url, '/lists/.+')
@@ -54,7 +54,7 @@ class NewVisitorTest(FunctionalTest):
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('milk')
         inputbox.send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table('1: milk')
+        self.wait_for_row_in_list_table('milk')
         # User 3 gets own unique url
         user3_list_url = self.browser.current_url
         self.assertRegex(user3_list_url, '/lists/.+')
