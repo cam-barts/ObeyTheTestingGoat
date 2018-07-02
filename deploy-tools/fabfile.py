@@ -88,4 +88,4 @@ def _start_all_services():
     sudo('systemctl reload nginx')
     sudo(f'systemctl enable gunicorn-{env.host}')
     sudo(f'systemctl start gunicorn-{env.host}')
-    sudo(f'service gunicorn-{env.host}.service restart')
+    sudo(f'service gunicorn-{env.host} restart')
