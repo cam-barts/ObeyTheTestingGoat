@@ -14,7 +14,7 @@ def deploy():
     _update_virtualenv(source_folder)
     _update_static_files(source_folder)
     _remove_database(source_folder) #Deploy only
-    _migrate_database(sosource_folder)
+    _migrate_database(source_folder)
     _sed_conf_templates(source_folder)
     _start_all_services()
 
