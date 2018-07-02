@@ -16,8 +16,6 @@ class FunctionalTest(StaticLiveServerTestCase):
         if staging_server:
             print(staging_server)
             self.live_server_url = 'http://' + staging_server
-        else:
-            print('No Staging Server')
 
     def tearDown(self):
             self.browser.quit()
@@ -28,7 +26,7 @@ class FunctionalTest(StaticLiveServerTestCase):
             try:
                 table = self.browser.find_element_by_id('id_list_table')
                 rows = table.find_elements_by_tag_name('tr')
-                self.assertIn(row_text, [row.text for row in rows])
+                self.assertIn(row_text, str([row.text for row in rows]))
                 return
             except (AssertionError, WebDriverException) as e:
                 if time.time() - start_time > MAX_WAIT:

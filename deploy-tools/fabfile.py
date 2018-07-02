@@ -7,13 +7,14 @@ REPO_URL = 'https://github.com/cam-barts/ObeyTheTestingGoat'
 def deploy():
     site_folder = f'/home/{env.user}/sites/{env.host}'
     source_folder = site_folder + '/source'
-    _create_directory_structure_if_necessary(site_folder)
+    _create_directory_structure_if_necessary(site_folder) #Deploy only
     _get_latest_source(source_folder)
-    _download_required_options()
+    _download_required_options()    #Deploy only
     _update_settings(source_folder, env.host)
     _update_virtualenv(source_folder)
     _update_static_files(source_folder)
-    _update_database(source_folder)
+    _remove_database(source_folder) #Deploy only
+    _migrate_database(sosource_folder)
     _sed_conf_templates(source_folder)
     _start_all_services()
 
@@ -24,7 +25,9 @@ def latest():
     _update_settings(source_folder, env.host)
     _update_virtualenv(source_folder)
     _update_static_files(source_folder)
-    _update_database(source_folder)
+    _migrate_database(source_folder)
+    _sed_conf_templates(source_folder)
+    _start_all_services()
 
 def _create_directory_structure_if_necessary(site_folder):
     for subfolder in ('database', 'static', 'virtualenv', 'source'):
@@ -68,9 +71,10 @@ def _update_static_files(source_folder):
         f'cd {source_folder} && ../virtualenv/bin/python manage.py collectstatic --noinput'
     )
 
-def _update_database(source_folder):
+def _remove_database(source_folder):
     run(f'cd {source_folder} && rm -rf  ../database/db.sqlite3')
-    # run(f'cd {source_folder} && rm -rf lists/migrations/* ')
+
+def _migrate_database(source_folder):
     run(f'cd {source_folder} && ../virtualenv/bin/python3.6 manage.py makemigrations')
     run(
         f'cd {source_folder} && ../virtualenv/bin/python3.6 manage.py migrate --noinput'
