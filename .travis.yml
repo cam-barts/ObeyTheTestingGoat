@@ -16,4 +16,4 @@ install:
 script:
   - python manage.py test lists
 after_success:
-  - codecov
+  - codecov -t 62e1e697-ac78-49b7-ad57-5a4f4b5eaf82
