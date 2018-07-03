@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.com/cam-barts/ObeyTheTestingGoat.svg?branch=master)](https://travis-ci.com/cam-barts/ObeyTheTestingGoat)
 [![codecov](https://codecov.io/gh/cam-barts/ObeyTheTestingGoat/branch/master/graph/badge.svg)](https://codecov.io/gh/cam-barts/ObeyTheTestingGoat)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
 #### Based on Harry Percival's [Test-Driven Development with Python](https://www.amazon.com/Test-Driven-Development-Python-Selenium-JavaScript/dp/1491958707/)
 
