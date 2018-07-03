@@ -3,3 +3,4 @@ geckodriver.log
 __pycache__
 *.pyc
 .idea
+.coverage

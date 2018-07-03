@@ -12,8 +12,9 @@ before_install:
   - sudo apt-get install python3.6
 install:
   - pip install -r requirements.txt
-  - pip install codecov
+  - pip install codecov coverage
 script:
   - python manage.py test lists
+  - coverage run manage.py test lists
 after_success:
   - codecov -t 62e1e697-ac78-49b7-ad57-5a4f4b5eaf82
