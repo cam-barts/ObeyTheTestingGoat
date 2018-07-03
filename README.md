@@ -1,6 +1,7 @@
 # The [To Do App](http://camstodo.ddns.net) To End All To Do Apps
 
 [![Build Status](https://travis-ci.com/cam-barts/ObeyTheTestingGoat.svg?branch=master)](https://travis-ci.com/cam-barts/ObeyTheTestingGoat)
+[![codecov](https://codecov.io/gh/cam-barts/ObeyTheTestingGoat/branch/master/graph/badge.svg)](https://codecov.io/gh/cam-barts/ObeyTheTestingGoat)
 
 #### Based on Harry Percival's [Test-Driven Development with Python](https://www.amazon.com/Test-Driven-Development-Python-Selenium-JavaScript/dp/1491958707/)
 
