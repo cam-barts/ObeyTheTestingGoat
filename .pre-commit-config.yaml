@@ -4,10 +4,6 @@ repos:
     hooks:
     - id: black
       language_version: python3.6
--   repo: https://github.com/Lucas-C/pre-commit-hooks-safety
-    sha: v1.1.0
-    hooks:
-    -   id: python-safety-dependencies-check
 -   repo: https://github.com/Lucas-C/pre-commit-hooks-bandit
     sha: v1.0.3
     hooks:
