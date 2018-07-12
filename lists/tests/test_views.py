@@ -6,6 +6,7 @@ from django.urls import resolve
 from lists.views import home_page
 from lists.models import Item, List
 from django.utils.html import escape
+from lists.forms import EMPTY_ITEM_ERROR
 
 
 class HomePageTest(TestCase):
@@ -66,7 +67,7 @@ class ListViewTest(TestCase):
         response = self.client.post(f"/lists/{list_.id}/", data={"item_text": ""})
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "list.html")
-        expected_error = escape("Oops! You Can't Have an Empty List Item!")
+        expected_error = escape(EMPTY_ITEM_ERROR)
         self.assertContains(response, expected_error)
 
 
@@ -88,7 +89,7 @@ class NewListTest(TestCase):
         response = self.client.post("/lists/new", data={"item_text": ""})
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "home.html")
-        expected_error = escape("Oops! You Can't Have an Empty List Item!")
+        expected_error = escape(EMPTY_ITEM_ERROR)
         self.assertContains(response, expected_error)
 
     def test_invalid_list_items_arent_saved(self):
