@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render, redirect
-from lists.models import Item, List
 from django.core.exceptions import ValidationError
+from django.shortcuts import redirect
+from django.shortcuts import render
+
+from lists.models import Item
+from lists.models import List
 
 
 # Create your views here.

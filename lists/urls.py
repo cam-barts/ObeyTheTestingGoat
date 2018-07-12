@@ -14,8 +14,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from lists import views
 from django.conf.urls import url
+
+from lists import views
 
 urlpatterns = [
     url(r"^new$", views.new_list, name="new_list"),

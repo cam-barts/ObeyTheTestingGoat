@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
-from django.test import TestCase
-from lists.models import Item, List
 from django.core.exceptions import ValidationError
+from django.test import TestCase
+
+from lists.models import Item
+from lists.models import List
 
 
 class ListAndItemModelTest(TestCase):

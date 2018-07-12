@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from .base import FunctionalTest
 import os
 import time
+
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+
+from .base import FunctionalTest
 
 
 class NewVisitorTest(FunctionalTest):

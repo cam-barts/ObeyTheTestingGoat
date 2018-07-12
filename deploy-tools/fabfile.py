@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 import random
 
-from fabric.api import env, local, run, sudo
-from fabric.contrib.files import append, exists, sed
+from fabric.api import env
+from fabric.api import local
+from fabric.api import run
+from fabric.api import sudo
+from fabric.contrib.files import append
+from fabric.contrib.files import exists
+from fabric.contrib.files import sed
 
 REPO_URL = "https://github.com/cam-barts/ObeyTheTestingGoat"
 

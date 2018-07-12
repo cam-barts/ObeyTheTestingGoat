@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-from selenium import webdriver
-from selenium.common.exceptions import WebDriverException
-from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 import os
 import time
+
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from selenium import webdriver
+from selenium.common.exceptions import WebDriverException
 
 MAX_WAIT = 10
 

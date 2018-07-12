@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
 
-from lists.forms import ItemForm, EMPTY_ITEM_ERROR
+from lists.forms import EMPTY_ITEM_ERROR
+from lists.forms import ItemForm
 
 
 class ItemFormTest(TestCase):

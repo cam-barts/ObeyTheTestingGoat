@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
 from django.urls import resolve
+from django.utils.html import escape
+
+from lists.forms import EMPTY_ITEM_ERROR
+from lists.models import Item
+from lists.models import List
+from lists.views import home_page
 
 # from django.http import HttpRequest
-from lists.views import home_page
-from lists.models import Item, List
-from django.utils.html import escape
-from lists.forms import EMPTY_ITEM_ERROR
 
 
 class HomePageTest(TestCase):
