@@ -46,6 +46,9 @@ class FunctionalTest(StaticLiveServerTestCase):
                     raise e
                 time.sleep(0.1)
 
+    def get_item_input_box(self):
+        return self.browser.find_element_by_id("id_new_item")
 
-if __name__ == "__main__":
-    unittest.main(warnings=None)
+
+# if __name__ == "__main__":
+#     unittest.main(warnings=None)

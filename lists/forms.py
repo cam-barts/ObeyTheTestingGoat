@@ -5,14 +5,6 @@ from lists.models import Item
 
 EMPTY_ITEM_ERROR = "Oops! You Can't Have an Empty List Item!"
 
-# class ItemForm(forms.Form):
-#     item_text = forms.CharField(
-#         widget=forms.fields.TextInput(attrs={
-#             'placeholder': 'Enter a to-do item',
-#             'class': 'form-control input-lg'
-#         })
-#     )
-
 
 class ItemForm(forms.models.ModelForm):
     class Meta:
