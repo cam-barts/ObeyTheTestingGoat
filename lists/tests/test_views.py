@@ -4,7 +4,9 @@ from unittest import skip
 from django.test import TestCase
 from django.utils.html import escape
 
+from lists.forms import DUPLICATE_ITEM_ERROR
 from lists.forms import EMPTY_ITEM_ERROR
+from lists.forms import ItemForm
 from lists.models import Item
 from lists.models import List
 
@@ -16,6 +18,10 @@ class HomePageTest(TestCase):
     def test_uses_home_page_template(self):
         response = self.client.get("/")
         self.assertTemplateUsed(response, "home.html")
+
+    def test_home_page_uses_item_form(self):
+        response = self.client.get("/")
+        self.assertIsInstance(response.context["form"], ItemForm)
 
 
 class ListViewTest(TestCase):
@@ -49,7 +55,7 @@ class ListViewTest(TestCase):
 
         self.client.post(
             f"/lists/{correct_list.id}/",
-            data={"item_text": "A new item for an existing list"},
+            data={"text": "A new item for an existing list"},
         )
 
         self.assertEqual(Item.objects.count(), 1)
@@ -61,24 +67,24 @@ class ListViewTest(TestCase):
         other_list = List.objects.create()
         correct_list = List.objects.create()
         response = self.client.post(
-            f"/lists/{correct_list.id}/", data={"item_text": "Some item text"}
+            f"/lists/{correct_list.id}/", data={"text": "Some item text"}
         )
         self.assertRedirects(response, f"/lists/{correct_list.id}/")
 
     def test_validation_errors_end_up_on_lists_page(self):
         list_ = List.objects.create()
-        response = self.client.post(f"/lists/{list_.id}/", data={"item_text": ""})
+        response = self.client.post(f"/lists/{list_.id}/", data={"text": ""})
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "list.html")
         expected_error = escape(EMPTY_ITEM_ERROR)
         self.assertContains(response, expected_error)
 
     @skip
-    def test_duplicate_item_validatgion_errors_end_up_on_lists_page(self):
+    def test_duplicate_item_validation_errors_end_up_on_lists_page(self):
         list1 = List.objects.create()
-        item1 = Item.objects.create(list=list1, text="textkey")
-        response = self.client.post(f"/lists/{list1.id}/", data={"text": "textkey"})
-        expected_error = escape("Oops, You Already Have This In Your List!")
+        item1 = Item.objects.create(list=list1, text="textey")
+        response = self.client.post(f"/lists/{list1.id}/", data={"text": "textey"})
+        expected_error = escape(DUPLICATE_ITEM_ERROR)
         self.assertContains(response, expected_error)
         self.assertTemplateUsed(response, "list.html")
         self.assertEqual(Item.objects.all().count(), 1)
@@ -87,25 +93,25 @@ class ListViewTest(TestCase):
 class NewListTest(TestCase):
     def test_can_save_a_POST_request(self):
         text = "A new list item"
-        self.client.post("/lists/new", data={"item_text": text})
+        self.client.post("/lists/new", data={"text": text})
         self.assertEqual(Item.objects.count(), 1)
         new_item = Item.objects.first()
         self.assertEqual(new_item.text, text)
 
     def test_redirects_after_POST(self):
         text = "A new list item"
-        response = self.client.post("/lists/new", data={"item_text": text})
+        response = self.client.post("/lists/new", data={"text": text})
         new_list = List.objects.first()
         self.assertRedirects(response, f"/lists/{new_list.id}/")
 
     def test_validation_errors_are_sent_to_home_page_template(self):
-        response = self.client.post("/lists/new", data={"item_text": ""})
+        response = self.client.post("/lists/new", data={"text": ""})
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "home.html")
         expected_error = escape(EMPTY_ITEM_ERROR)
         self.assertContains(response, expected_error)
 
     def test_invalid_list_items_arent_saved(self):
-        self.client.post("/list/new", data={"item_text": ""})
+        self.client.post("/list/new", data={"text": ""})
         self.assertEqual(List.objects.count(), 0)
         self.assertEqual(Item.objects.count(), 0)

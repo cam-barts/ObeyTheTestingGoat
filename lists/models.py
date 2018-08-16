@@ -10,7 +10,11 @@ class List(models.Model):
 
 class Item(models.Model):
     text = models.TextField(default="")
-    list = models.ForeignKey(List, on_delete=models.DO_NOTHING, default=None)
+    list = models.ForeignKey(List, default=None)
 
     class Meta:
+        ordering = ("id",)
         unique_together = ("list", "text")
+
+    def __str__(self):
+        return self.text

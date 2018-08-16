@@ -8,7 +8,7 @@ class ItemValidationTest(FunctionalTest):
     def test_cannot_add_empty_item(self):
         # User Goes to site and accidentally submits an empty list item
         self.browser.get(self.live_server_url)
-        self.browser.find_element_by_id("id_new_item").send_keys(Keys.ENTER)
+        self.get_item_input_box().send_keys(Keys.ENTER)
 
         # Home Page refreshes with Error indicating items cannot be blank
         self.wait_for(
@@ -19,13 +19,13 @@ class ItemValidationTest(FunctionalTest):
         )
 
         # User tries with some text and succeeds
-        inputbox = self.browser.find_element_by_id("id_new_item")
+        inputbox = self.get_item_input_box()
         inputbox.send_keys("Do something at sometime")
         inputbox.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table("Do something at sometime")
 
         # User inputs a different task, also succeeding
-        inputbox = self.browser.find_element_by_id("id_new_item")
+        inputbox = self.get_item_input_box()
         inputbox.send_keys("Do another thing at another time")
         inputbox.send_keys(Keys.ENTER)
 
@@ -34,7 +34,7 @@ class ItemValidationTest(FunctionalTest):
         self.wait_for_row_in_list_table("Do another thing at another time")
 
         # User attempts the empty list item again, just to make sure
-        self.browser.find_element_by_id("id_new_item").send_keys(Keys.ENTER)
+        self.browser.get_item_input_box().send_keys(Keys.ENTER)
         # Home Page refreshes with Error indicating items cannot be blank
         self.wait_for(
             lambda: self.assertEqual(
