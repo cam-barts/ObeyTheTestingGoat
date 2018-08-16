@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django.db.models import DO_NOTHING
 from django.urls import reverse
 
 # Create your models here.
@@ -10,7 +11,7 @@ class List(models.Model):
 
 class Item(models.Model):
     text = models.TextField(default="")
-    list = models.ForeignKey(List, default=None)
+    list = models.ForeignKey(List, default=None, on_delete=DO_NOTHING)
 
     class Meta:
         ordering = ("id",)
