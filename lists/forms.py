@@ -9,6 +9,10 @@ DUPLICATE_ITEM_ERROR = "Oops, You Already Have This In Your List!"
 
 
 class ItemForm(forms.models.ModelForm):
+    def save(self, for_list):
+        self.instance.list = for_list
+        return super().save()
+
     class Meta:
         model = Item
         fields = ("text",)

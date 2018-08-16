@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from unittest import skip
+
 from selenium.webdriver.common.keys import Keys
 
 from .base import FunctionalTest
@@ -12,10 +14,7 @@ class ItemValidationTest(FunctionalTest):
 
         # Home Page refreshes with Error indicating items cannot be blank
         self.wait_for(
-            lambda: self.assertEqual(
-                self.browser.find_element_by_css_selector(".has-error").text,
-                "Oops! You Can't Have an Empty List Item!",
-            )
+            lambda: self.browser.find_element_by_css_selector("#id_text:invalid")
         )
 
         # User tries with some text and succeeds
@@ -34,15 +33,13 @@ class ItemValidationTest(FunctionalTest):
         self.wait_for_row_in_list_table("Do another thing at another time")
 
         # User attempts the empty list item again, just to make sure
-        self.browser.get_item_input_box().send_keys(Keys.ENTER)
+        self.get_item_input_box().send_keys(Keys.ENTER)
         # Home Page refreshes with Error indicating items cannot be blank
         self.wait_for(
-            lambda: self.assertEqual(
-                self.browser.find_element_by_css_selector(".has-error").text,
-                "Oops! You Can't Have an Empty List Item!",
-            )
+            lambda: self.browser.find_element_by_css_selector("#id_text:invalid")
         )
 
+    @skip
     def test_cannot_add_duplicate_item(self):
         # User goes to homepage and starts a new list
         self.browser.get(self.live_server_url)

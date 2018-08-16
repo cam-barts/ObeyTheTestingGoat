@@ -10,6 +10,13 @@ from lists.models import List
 
 
 class ItemFormTest(TestCase):
+    def test_form_save_handles_saving_to_a_list(self):
+        list_ = List.objects.create()
+        form = ItemForm(data={"text": "do me"})
+        new_item = form.save(for_list=list_)
+        self.assertEqual(new_item.text, "do me")
+        self.assertEqual(new_item.list, list_)
+
     def test_form_renders_item_text_input(self):
         form = ItemForm()
         self.assertIn('placeholder="Enter a to-do item"', form.as_p())
