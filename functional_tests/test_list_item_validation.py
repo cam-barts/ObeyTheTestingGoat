@@ -1,12 +1,17 @@
 # -*- coding: utf-8 -*-
 from unittest import skip
 
+from django.utils.html import escape
 from selenium.webdriver.common.keys import Keys
 
 from .base import FunctionalTest
+from lists.forms import DUPLICATE_ITEM_ERROR
 
 
 class ItemValidationTest(FunctionalTest):
+    def get_error_element(self):
+        return self.browser.find_element_by_css_selector(".has-error")
+
     def test_cannot_add_empty_item(self):
         # User Goes to site and accidentally submits an empty list item
         self.browser.get(self.live_server_url)
@@ -39,7 +44,6 @@ class ItemValidationTest(FunctionalTest):
             lambda: self.browser.find_element_by_css_selector("#id_text:invalid")
         )
 
-    @skip
     def test_cannot_add_duplicate_item(self):
         # User goes to homepage and starts a new list
         self.browser.get(self.live_server_url)
@@ -54,11 +58,24 @@ class ItemValidationTest(FunctionalTest):
         # User recieves a helpful and well written error message
         self.wait_for(
             lambda: self.assertEqual(
-                self.browser.find_element_by_css_selector(".has_error").text,
-                "Oops, You Already Have This In Your List!",
+                self.get_error_element().text, escape(DUPLICATE_ITEM_ERROR)
             )
         )
 
+    def test_error_messages_are_cleared_on_input(self):
+        # User Generates a Validation error due to duplication
+        self.browser.get(self.live_server_url)
+        self.get_item_input_box().send_keys("Banter too thicc")
+        self.get_item_input_box().send_keys(Keys.ENTER)
+        self.wait_for_row_in_list_table("1 Banter too thicc")
 
-# if __name__ == "__main__":
-#     unittest.main(warnings=None)
+        self.get_item_input_box().send_keys("Banter too thicc")
+        self.get_item_input_box().send_keys(Keys.ENTER)
+
+        self.wait_for(lambda: self.assertTrue(self.get_error_element().is_displayed()))
+
+        # User Begins Typing Again
+        self.get_item_input_box().send_keys("a")
+
+        # Error Message dissappears
+        self.wait_for(lambda: self.assertFalse(self.get_error_element().is_displayed()))
