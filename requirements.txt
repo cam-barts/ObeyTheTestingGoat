@@ -1,5 +1,5 @@
-Django==2.1
+Django==2.1.1
 gunicorn==19.8.1
-pre-commit==1.10.5
+pre-commit==1.11.0
 pytz==2018.5
 selenium==3.14.0
