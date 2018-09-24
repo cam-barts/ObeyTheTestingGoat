@@ -15,11 +15,6 @@ class ListUserManager(BaseUserManager):
         self.create_user(email)
 
 
-class Token(models.Model):
-    email = models.EmailField()
-    uid = models.CharField(max_length=255)
-
-
 class ListUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(primary_key=True)
     USERNAME_FIELD = "email"
@@ -34,3 +29,8 @@ class ListUser(AbstractBaseUser, PermissionsMixin):
     @property
     def is_active(self):
         return True
+
+
+class Token(models.Model):
+    email = models.EmailField()
+    uid = models.CharField(max_length=255)

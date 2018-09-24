@@ -119,6 +119,14 @@ STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, "../static"))
 
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_HOST_USER = "CameronD.Barts@gmail.com"
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD")
+EMAIL_HOST_PASSWORD = str(input("Email Pass: "))
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {"console": {"level": "DEBUG", "class": "logging.StreamHandler"}},
+    "loggers": {"django": {"handlers": ["console"]}},
+    "root": {"level": "INFO"},
+}

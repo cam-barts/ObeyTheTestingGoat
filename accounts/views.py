@@ -31,8 +31,8 @@ def send_login_email(request):
 
 def login(request):
     print("login view", file=sys.stderr)
-    uid = request.GET.get(uid)
-    user = authenticate(uid=uid)
+    uid = request.GET.get("uid")
+    user = authenticate(uid)
     if user is not None:
         auth_login(request, user)
     return redirect("/")
