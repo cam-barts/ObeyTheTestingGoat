@@ -21,10 +21,19 @@ RUN apt-get remove -y curl
 #Layers for the django app
 RUN mkdir /code
 WORKDIR /code
-ADD . /code/
+ADD .. /code/
 RUN pip install pip --upgrade
 RUN pip install -r requirements.txt
-RUN fab deploy:host=localhost
+RUN python manage.py collectstatic --noinput
+RUN python manage.py makemigrations
+RUN python manage.py migrate
+ADD /etc/nginx/site-available/* /etc/nginx/sites-available/
+ADD /etc/systemd/system/*    /etc/systemd/system/
+RUN systemctl daemon-reload
+RUN systemctl reload nginx
+RUN systemctl enable gunicorn-*
+RUN systemctl start gunicorn-*
+RUN service gunicorn-* restart
 EXPOSE 8002
 WORKDIR /code/django_docker_azure
 ENTRYPOINT ["python", "/code/manage.py", "runserver", "0.0.0.0:8002"]
