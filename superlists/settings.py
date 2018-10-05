@@ -123,7 +123,14 @@ STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, "../static"))
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-    "handlers": {"console": {"level": "DEBUG", "class": "logging.StreamHandler"}},
-    "loggers": {"django": {"handlers": ["console"]}},
+    "handlers": {
+        "console": {"level": "DEBUG", "class": "logging.StreamHandler"},
+        "debug_file": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": "./DebugLog.log",
+        },
+    },
+    "loggers": {"django": {"handlers": ["console", "debug_file"]}},
     "root": {"level": "INFO"},
 }
