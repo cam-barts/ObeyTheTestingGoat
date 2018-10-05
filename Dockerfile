@@ -24,6 +24,7 @@ WORKDIR /code
 ADD . /code/
 RUN pip install pip --upgrade
 RUN pip install -r requirements.txt
+RUN fab deploy:host=localhost
 EXPOSE 8002
 WORKDIR /code/django_docker_azure
 ENTRYPOINT ["python", "/code/manage.py", "runserver", "0.0.0.0:8002"]

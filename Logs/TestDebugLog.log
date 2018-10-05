@@ -1,0 +1,22 @@
+"GET / HTTP/1.1" 200 2181
+"GET /static/bootstrap/css/bootstrap.min.css HTTP/1.1" 200 140936
+"GET /static/base.css HTTP/1.1" 200 49
+"GET /static/list.js HTTP/1.1" 200 172
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2202
+"GET / HTTP/1.1" 200 2181
+"POST / HTTP/1.1" 200 2181
+"GET / HTTP/1.1" 200 2181
+"POST / HTTP/1.1" 200 2181
+"POST /lists/new HTTP/1.1" 302 0
+"GET /lists/3/ HTTP/1.1" 200 2280
+Not Found: /lists/static/list.js
+"GET /lists/static/list.js HTTP/1.1" 404 2478
+Not Found: /lists/static/list.js
+"GET /lists/static/list.js HTTP/1.1" 404 2478
+"POST /lists/3/ HTTP/1.1" 302 0
+"GET /lists/3/ HTTP/1.1" 200 2349
+Not Found: /lists/static/list.js
+"GET /lists/static/list.js HTTP/1.1" 404 2478
+Not Found: /lists/static/list.js
+"GET /lists/static/list.js HTTP/1.1" 404 2478
