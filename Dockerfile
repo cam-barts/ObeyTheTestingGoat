@@ -22,19 +22,12 @@ RUN apt-get remove -y curl
 RUN mkdir /code
 WORKDIR /code
 ADD . /code/
+RUN ls /code/
 RUN pip install pip --upgrade
-RUN pip install -r /code/source/requirements.txt
-RUN python /code/source/manage.py collectstatic --noinput
-RUN python /code/source/manage.py makemigrations
-RUN python /code/source/manage.py migrate
-#RUN sed "s/SITENAME/camstodo-docker/g" /code/source/deploy-tools/nginx.template.conf | tee /etc/nginx/sites/available/camstodo-docker
-#RUN ln -s /etc/nginx/sites-available/camstodo-docker /etc/nginx/sites-enabled/camstodo-docker
-#RUN sed "s/SITENAME/camstodo-docker/g" /code/source/deploy-tools/guinicorn-systemd.template.service | tee /etc/systemd/system/gunicorn-camstodo-docker.service
-#RUN systemctl daemon-reload
-#RUN systemctl reload nginx
-#RUN systemctl enable gunicorn-camstodo-docker
-#RUN systemctl start gunicorn-camstodo-docker
-#RUN service gunicorn-camstodo-docker restart
-EXPOSE 8002
+RUN pip install -r /code/requirements.txt
+RUN python /code/manage.py collectstatic --noinput
+RUN python /code/manage.py makemigrations
+RUN python /code/manage.py migrate
+EXPOSE 8000
 WORKDIR /code/source
-ENTRYPOINT ["python", "/code/source/manage.py", "runserver", "0.0.0.0:8002"]
+ENTRYPOINT ["python", "/code/manage.py", "runserver", "0.0.0.0:8000"]
