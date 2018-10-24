@@ -79,10 +79,21 @@ WSGI_APPLICATION = "superlists.wsgi.application"
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "database/db.sqlite3"),
-    }
+    #"default": {
+    #    "ENGINE": "django.db.backends.sqlite3",
+    #    "NAME": os.path.join(BASE_DIR, "database/db.sqlite3"),
+    #}
+    'default': {
+         'ENGINE': 'sql_server.pyodbc',
+         'NAME': 'spike-tododb',
+         'USER': 'todouser@camstododbserver',
+         'PASSWORD': input('Insert DB password for todouser: '),
+         'HOST': 'camstododbserver.database.windows.net',
+         'OPTIONS': {
+             'driver': 'ODBC Driver 17 for SQL Server',
+             'MARS_Connection': 'True',
+         }
+     }
 }
 
 
