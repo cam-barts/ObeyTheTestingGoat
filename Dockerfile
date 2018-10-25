@@ -27,8 +27,11 @@ WORKDIR /code
 ADD . /code/
 RUN pip3 install pip --upgrade
 RUN pip3 install -r /code/requirements.txt
+ENV DJANGO_SETTINGS_MODULE=superlists.settings
+RUN pip install whitenoise
 RUN python /code/manage.py collectstatic --noinput
 EXPOSE 8000
 RUN cp /code/deploy-tools/entrypoint.sh /code/
 WORKDIR /code
+RUN ls
 ENTRYPOINT ["sh", "entrypoint.sh"]
