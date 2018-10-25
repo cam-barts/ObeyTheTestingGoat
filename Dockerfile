@@ -16,18 +16,19 @@ RUN ACCEPT_EULA=Y apt-get install -y msodbcsql
 RUN apt-get install -y locales
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 RUN locale-gen
+RUN PATH=$PATH:/usr/bin
 #End of mandatory layers for Microsoft ODBC Driver 13 for Linux
 RUN apt-get remove -y curl
 #Layers for the django app
+ARG db_pass=''
+ENV db_pass=${db_pass}
 RUN mkdir /code
 WORKDIR /code
 ADD . /code/
-RUN ls /code/
-RUN pip install pip --upgrade
-RUN pip install -r /code/requirements.txt
+RUN pip3 install pip --upgrade
+RUN pip3 install -r /code/requirements.txt
 RUN python /code/manage.py collectstatic --noinput
-RUN python /code/manage.py makemigrations
-RUN python /code/manage.py migrate
 EXPOSE 8000
-WORKDIR /code/source
-ENTRYPOINT ["python", "/code/manage.py", "runserver", "0.0.0.0:8000"]
+RUN cp /code/deploy-tools/entrypoint.sh /code/
+WORKDIR /code
+ENTRYPOINT ["sh", "entrypoint.sh"]

@@ -87,10 +87,10 @@ DATABASES = {
          'ENGINE': 'sql_server.pyodbc',
          'NAME': 'spike-tododb',
          'USER': 'todouser@camstododbserver',
-         'PASSWORD': input('Insert DB password for todouser: '),
+         'PASSWORD': os.getenv('db_pass'),
          'HOST': 'camstododbserver.database.windows.net',
          'OPTIONS': {
-             'driver': 'ODBC Driver 17 for SQL Server',
+             'driver': 'ODBC Driver 13 for SQL Server',
              'MARS_Connection': 'True',
          }
      }
