@@ -1,4 +1,4 @@
-Django==2.1.7
+Django==2.2
 gunicorn==19.9.0
 pre-commit==1.14.4
 pytz==2018.9
