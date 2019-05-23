@@ -5,3 +5,6 @@ __pycache__
 .idea
 .coverage
 pre-commit-hook.bat
+.vscode
+.env
+DebugLog.log
