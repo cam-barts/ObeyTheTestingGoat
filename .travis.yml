@@ -6,7 +6,11 @@ before_install:
   - sudo add-apt-repository ppa:fkrull/deadsnakes -y
   - sudo apt-get update
   - sudo apt-get install python3.6
+  - sudo apt-add-repository -y ppa:travis-ci/sqlite3
+  - sudo apt-get -y update
+  - sudo apt-cache show sqlite3	
   - sudo apt-get install sqlite3
+  - sudo sqlite3 -version	
 install:
   - pip install -r requirements.txt
   - pip install codecov coverage
